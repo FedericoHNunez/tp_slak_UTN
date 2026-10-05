@@ -6,41 +6,42 @@ import jsonErrorHandler from "./middlewares/jsonError.middleware.js";
 import errorHandler from "./middlewares/errorHandler.middleware.js";
 import successResponse from "./helpers/response.helper.js";
 import workspaceRouter from "./routers/workspace.router.js";
-import directMessageRouter from "./routers/dictecMessage.router.js";
+import directMessageRouter from "./routers/directMessage.router.js";
+import ENVIRONMENT from "./config/environment.config.js";
 
-// 1. Conectar a la base de datos
+// 1. Connect to the database
 await connectMongoDB();
 
-const PORT = process.env.PORT || 3000;
+const PORT = ENVIRONMENT.PORT;
 const app = express();
 
 app.use(express.json());
 
-// Middleware para atrapar errores de formato JSON (SyntaxError)
+// Middleware to catch JSON format errors (SyntaxError)
 app.use(jsonErrorHandler);
 
-// Endpoint de verificación (Healthcheck)
+// Healthcheck endpoint
 app.get("/api/status", (req, res) => {
-  return successResponse(res, "Servidor Express OK!");
+  return successResponse(res, "Express Server OK!");
 });
 
-//endpoints autenticación
+// Authentication endpoints
 app.use("/api/auth", authRouter);
 
-//Endpoints usuarios
+// User endpoints
 app.use("/api/users", userRouter);
 
-//workspaces 
+// Workspaces
 app.use('/api/workspaces', workspaceRouter);
 
-//direct messages
+// Direct messages
 app.use('/api/directMessages', directMessageRouter);
 
-// Manejador centralizado de errores
+// Centralized error handler
 app.use(errorHandler);
 
 
-// Iniciar servidor
+// Start server
 app.listen(PORT, () => {
-  console.log(`Servidor escuchando en el puerto http://localhost:${PORT}`);
+  console.log(`Server listening on port http://localhost:${PORT}`);
 });

@@ -1,12 +1,12 @@
 import mongoose from 'mongoose';
 import cowsay from 'cowsay';
-import EVIRONMENT from './environment.config.js';
+import ENVIRONMENT from './environment.config.js';
 
 
 
 async function connectMongoDB() {
     try {
-        await mongoose.connect(`${EVIRONMENT.MONGO_URI}/${EVIRONMENT.MONGO_DB_NAME}`)
+        await mongoose.connect(`${ENVIRONMENT.MONGO_URI}/${ENVIRONMENT.MONGO_DB_NAME}`)
         console.log(cowsay.say({
             text: "Conexión a MongoDB exitosa",
             e: "oO",

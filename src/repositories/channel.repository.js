@@ -1,0 +1,28 @@
+import BaseRepository from './base.repository.js';
+import channelModel from "../models/channel.model.js";
+
+class ChannelRepository extends BaseRepository {
+    constructor() {
+        super(channelModel);
+    }
+
+    async create(name, description, id_workspace) {
+        const channel = await this.model
+            .create({
+                name: name,
+                description: description,
+                id_workspace: id_workspace
+            });
+        return channel;
+    }
+
+    async getAllChannelsByWorkspaceId(workspaceId) {
+        const channels = await this.model
+            .find({ id_workspace: workspaceId })
+            .populate('id_workspace');
+        return channels;
+    }
+}
+
+const channelRepository = new ChannelRepository();
+export default channelRepository;

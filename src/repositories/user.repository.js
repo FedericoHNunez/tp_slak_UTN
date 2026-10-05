@@ -3,7 +3,7 @@ import userModel from "../models/user.model.js";
 
 class UserRepository extends BaseRepository {
     constructor() {
-        super(userModel);
+        super(userModel, ['userName']);
     }
 
     async create(userName, email, password) {
@@ -27,12 +27,7 @@ class UserRepository extends BaseRepository {
         return usersFound;
     }
 
-    async getBySearchTerm(term) {
-        const usersFound = await this.model.find({
-            userName: { $regex: term, $options: 'i' }
-        });
-        return usersFound;
-    }
+
 
     async getByEmail(email) {
         const userResult = await this.model.findOne({

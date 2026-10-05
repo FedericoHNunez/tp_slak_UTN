@@ -1,22 +1,16 @@
-import workspaceRepository from "../repositories/workspace.repository.js";
-import ServerError from "../helpers/error.helper.js";
+import workspaceService from "../services/workspace.service.js";
 import successResponse from "../helpers/response.helper.js";
 
 class WorkspaceController {
 
     async getWorkspaces(req, res) {
-        const { name } = req.query;
-        let workspaceList;
-        if (name) {
-            workspaceList = await workspaceRepository.getBySearchTerm(name);
-        } else {
-            workspaceList = await workspaceRepository.get();
-        }
+        const { name, description } = req.query;
+        const workspaceList = await workspaceService.getWorkspaces(name, description);
 
         return successResponse(
             res,
-            name ?
-                `Workspaces retrieved by search term ${name}` :
+            name || description ?
+                `Workspaces retrieved by search term ${name || description}` :
                 "Get all workspaces",
             { workspaces: workspaceList }
         );
@@ -24,19 +18,13 @@ class WorkspaceController {
 
     async createWorkspace(req, res) {
         const { name, description } = req.body;
-        if (!name || !description) {
-            throw new ServerError(
-                "Missing required fields: name and description are required.",
-                400
-            );
-        }
-        const workspace = await workspaceRepository.create(name, description);
+        const workspace = await workspaceService.createWorkspace(name, description);
         return successResponse(res, "Workspace created successfully.", { workspace }, 201);
     }
 
     async deleteWorkspaceById(req, res) {
         const { workspace_id } = req.params;
-        const workspace = await workspaceRepository.deleteById(workspace_id);
+        const workspace = await workspaceService.deleteWorkspaceById(workspace_id);
         return successResponse(res, "Workspace deleted successfully.", { workspace }, 200);
     }
 }

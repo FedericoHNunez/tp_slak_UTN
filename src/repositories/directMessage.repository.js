@@ -3,7 +3,7 @@ import directMessageModel from '../models/directMessage.model.js';
 
 class DirectMessageRepository extends BaseRepository {
     constructor() {
-        super(directMessageModel);
+        super(directMessageModel, ['content']);
     }
 
     async create(content, id_receptor, id_emisor) {
@@ -25,13 +25,7 @@ class DirectMessageRepository extends BaseRepository {
                 ]
             });
     }
-    async getMessagerBySearchTerm(term) {
-        return await this.model.find({
-            $or: [
-                { content: { $regex: term, $options: 'i' } }
-            ]
-        })
-    }
+
 }
 
 const directMessageRepository = new DirectMessageRepository();

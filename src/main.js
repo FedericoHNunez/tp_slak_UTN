@@ -8,6 +8,7 @@ import successResponse from "./helpers/response.helper.js";
 import workspaceRouter from "./routers/workspace.router.js";
 import directMessageRouter from "./routers/directMessage.router.js";
 import ENVIRONMENT from "./config/environment.config.js";
+import { compareHash } from "./helpers/bcrypt.helper.js";
 
 // 1. Connect to the database
 await connectMongoDB();
@@ -39,7 +40,6 @@ app.use('/api/directMessages', directMessageRouter);
 
 // Centralized error handler
 app.use(errorHandler);
-
 
 // Start server
 app.listen(PORT, () => {

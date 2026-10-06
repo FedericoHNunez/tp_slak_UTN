@@ -44,20 +44,6 @@ class UserRepository extends BaseRepository {
             }
         );
     }
-
-    async checkPassword(email, password) {
-        const user = await this.model.findOne({
-            email: email
-        });
-        if (!user) {
-            throw new ServerError(
-                "User not found.",
-                404
-            );
-        }
-        const isPasswordValid = await bcrypt.compare(password, user.password);
-        return isPasswordValid;
-    }
 }
 
 const userRepository = new UserRepository();

@@ -12,7 +12,7 @@ const channelSchema = new mongoose.Schema(
         description: {
             type: String,
             required: true,
-            maxlength: 200,
+            maxlength: 1000,
             trim: true
         },
         id_workspace: {

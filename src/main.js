@@ -1,14 +1,15 @@
 import express from "express";
 import connectMongoDB from "./config/mongo.configDB.js";
-import userRouter from "./routers/user.router.js";
-import authRouter from "./routers/auth.router.js";
+import userRouter from "./routes/user.router.js";
+import authRouter from "./routes/auth.router.js";
 import jsonErrorHandler from "./middlewares/jsonError.middleware.js";
 import errorHandler from "./middlewares/errorHandler.middleware.js";
 import successResponse from "./helpers/response.helper.js";
-import workspaceRouter from "./routers/workspace.router.js";
-import directMessageRouter from "./routers/directMessage.router.js";
+import workspaceRouter from "./routes/workspace.router.js";
+import directMessageRouter from "./routes/directMessage.router.js";
 import ENVIRONMENT from "./config/environment.config.js";
-import { compareHash } from "./helpers/bcrypt.helper.js";
+
+
 
 // 1. Connect to the database
 await connectMongoDB();

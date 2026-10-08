@@ -2,6 +2,7 @@ import userRepository from "../repositories/user.repository.js";
 import ServerError from "../helpers/error.helper.js";
 import { hashPassword, compareHash } from "../helpers/bcrypt.helper.js";
 import { isValidEmail } from "../helpers/emailvalidation.helper.js";
+import createToken from "../helpers/tokenCreater.helper.js";
 
 class AuthService {
     async registerUser(userName, email, password) {
@@ -23,7 +24,7 @@ class AuthService {
 
         const hashedPassword = await hashPassword(password);
         const user = await userRepository.create(userName, email, hashedPassword);
-        return user;
+        return user._id;
     }
 
     async loginUser(email, password) {
@@ -47,7 +48,9 @@ class AuthService {
         if (!userPasswordMatch) {
             throw new ServerError("Invalid credentials", 401);
         }
-        return user;
+        const auth_token = createToken({ _id: user._id, email: user.email, userName: user.userName });
+
+        return auth_token;
     }
 }
 
